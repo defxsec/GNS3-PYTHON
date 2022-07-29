@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#M
+
 import getpass
 import telnetlib
 
