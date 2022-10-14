@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
-from ast import For
 import getpass
 import telnetlib
+from tkinter.filedialog import Open
 
 user = input("Enter your telnet username: ")
 password = getpass.getpass()
 
-for n in range(111, 116):
-    HOST = "192.168.1." + str(n)
+f = open("HOSTs.txt")
 
-    tn = telnetlib.Telnet(HOST)
+for ip in f:
+    print("Configurando Switch" + ip)
+
+    tn = telnetlib.Telnet(ip.strip())
 
     tn.read_until(b"Username: ")
     tn.write(user.encode('ascii') + b"\n")
@@ -27,8 +29,7 @@ for n in range(111, 116):
         tn.write(b"name Python_VLAN_" + str(n).encode('ascii') + b"\n")
 
     tn.write(b"end\n")
-    #Añadimos este fragmento de codigo para no tener problema
-    tn.write(b"wr\n")
     tn.write(b"exit\n")
+    tn.write(b"wr\n")
 
     print(tn.read_all().decode('ascii'))
