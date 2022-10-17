@@ -20,15 +20,11 @@ for ip in f:
         tn.write(password.encode('ascii') + b"\n")
 
     tn.write(b"ls\n")
-
-    tn.write(b"configure terminal\n")
-
-    for n in range(2, 10):
-        tn.write(b"vlan " + str(n).encode('ascii') + b"\n")
-        tn.write(b"name Python_VLAN_" + str(n).encode('ascii') + b"\n")
-
-    tn.write(b"end\n")
+    tn.write(b"terminal length 0\n")
+    tn.write(b"show running-config\n")
     tn.write(b"exit\n")
-    tn.write(b"wr\n")
 
-    print(tn.read_all().decode('ascii'))
+    readoutput = tn.read_all()
+    saveoutput = open("Switch" + ip.strip(), "wb")
+    saveoutput.write(readoutput)
+    saveoutput.close()
